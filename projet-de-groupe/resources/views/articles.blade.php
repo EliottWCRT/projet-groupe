@@ -182,16 +182,12 @@
   </div>
 </footer>
 <script>
-  // Sélectionne le bouton "Envoyer"
-  const sendButton = document.querySelector('button.btn-primary');
-
-  // Ajoute un écouteur d'événements sur le clic du bouton "Envoyer"
-  sendButton.addEventListener('click', () => {
+  function envoyerCommentaire() {
     // Récupère le contenu du champ de texte
-    const commentContent = document.querySelector('#comment').value;
+    const commentContent = this.parentElement.querySelector('#comment').value;
 
     // Sélectionne la liste de commentaires existante
-    const commentList = document.querySelector('.list-group');
+    const commentList = this.parentElement.parentElement.querySelector('.list-group');
 
     // Crée un nouvel élément de liste contenant le commentaire
     const newComment = document.createElement('li');
@@ -202,8 +198,14 @@
     commentList.appendChild(newComment);
 
     // Réinitialise le champ de texte
-    document.querySelector('#comment').value = '';
+    this.parentElement.querySelector('#comment').value = '';
+  }
+
+  const sendButtons = document.querySelectorAll('.card-body button.btn-primary');
+  sendButtons.forEach(button => {
+    button.addEventListener('click', envoyerCommentaire);
   });
 </script>
+
 </body>
 </html>
