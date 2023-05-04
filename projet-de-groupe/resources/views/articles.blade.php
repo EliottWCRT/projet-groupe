@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Blog d'un groupe de musique</title>
+	<title>Blog d'un groupe</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
@@ -10,77 +10,42 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-      <!--Contenu-->
-    <h1 class="text-center">Blog</h1>
-    <section class="article">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-4">
-              <img src="images/IMG_3370.JPG" alt="Image" class="img-fluid">
-                <h2>Article 1</a></h2>
-                <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</button>  
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item">Modifier</a>
-                  <a class="dropdown-item">Supprimer</a>
-                </div>
-                </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, justo quis commodo consectetur, eros tortor pharetra turpis, sit amet aliquet neque massa id quam.</p>
-            </div>
-            <div class="col-md-4">
-              <img src="images/IMG_3370.JPG" alt="Image" class="img-fluid">
-                <h2>Article 2</a></h2>
-                <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</button>  
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item">Modifier</a>
-                  <a class="dropdown-item">Supprimer</a>
-                </div>
-                </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, justo quis commodo consectetur, eros tortor pharetra turpis, sit amet aliquet neque massa id quam.</p>
-            </div>
-            <div class="col-md-4">
-              <img src="images/IMG_3370.JPG" alt="Image" class="img-fluid">
-                <h2>Article 3</a></h2>
-                <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</button>  
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item">Modifier</a>
-                  <a class="dropdown-item">Supprimer</a>
-                </div>
-                </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, justo quis commodo consectetur, eros tortor pharetra turpis, sit amet aliquet neque massa id quam.</p>
-            </div>
-            <div class="col-md-4">
-              <img src="images/IMG_3370.JPG" alt="Image" class="img-fluid">
-                <h2>Article 4</a></h2>
-                <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</button>  
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item">Modifier</a>
-                  <a class="dropdown-item">Supprimer</a>
-                </div>
-                </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, justo quis commodo consectetur, eros tortor pharetra turpis, sit amet aliquet neque massa id quam.</p>            
-              </div>
-          </div>
-        </div>
-      </section>
-      <!--Fin contenu-->  
-      <footer class="bg-dark text-light py-3">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6">
-        <p>© 2023 Blog. Tous droits réservés.</p>
-      </div>
-      <div class="col-md-6">
-        <ul class="list-inline text-md-end">
-          <li class="list-inline-item"><a href="welcome.blade.php">Accueil</a></li>
-        </ul>
-      </div>
+<section class="article">
+    <div class="container">
+        <div class="row">
+            <?php if (isset($articles) && !empty($articles)) : ?>
+                <?php foreach ($articles as $article): ?>
+                    <div class="col-md-4">
+                        <img src="<?php echo $article['image']; ?>" alt="Image" class="img-fluid">
+                        <h2><?php echo $article['title']; ?></h2>
+                        @guest
+                        @else
+                                <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Options
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item">Modifier</a>
+                                    <a class="dropdown-item">Supprimer</a>
+                                </div>
+                            </div>
+                        @endguest
+                        @guest
+@else
+    <div class="text-right mb-3">
+        <a href="{{ route('articles.create') }}" class="btn btn-primary">Créer un article</a>
     </div>
-  </div>
-</footer>
-    
+@endguest
+
+                        <p><?php echo $article['content']; ?></p>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+              <a href="{{ route('articles.create') }}" class="btn btn-primary">Créer</a>
+                <p>Aucun article disponible pour le moment.</p>
+            <?php endif; ?>
+        </div>
+    </div>
+</section>
 </body>
 </html>
